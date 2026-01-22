@@ -1,0 +1,73 @@
+# Stereo Matching Algorithms in Python
+Optimized (very fast) stereo matching algorithms in Python. A port from [Stereo Matching Algorithms in MATLAB](https://github.com/bollasap/stereo-matching-algorithms-matlab).
+
+It includes:
+- Block Matching
+- Dynamic Programming (2 different versions)
+- Semi-Global Matching
+- Semi-Global Block Matching
+- Belief Propagation (3 different versions)
+
+Note: For different stereo image pairs, set the disparity levels and the other parameters. If the image has no noise, do not use Gaussian filter.
+
+## Input Image
+The Tsukuba stereo image that used as input.
+
+<p align="center">
+  <img src="left.png"> 
+</p>
+
+## Output Image
+The disparity map that created using the Block Matching algorithm.
+
+<p align="center">
+  <img src="results/disparity0.png"> 
+</p>
+
+The disparity map that created using the Dynamic Programming (Left-Right Axes) algorithm.
+
+<p align="center">
+  <img src="results/disparity1.png"> 
+</p>
+
+The disparity map that created using the Dynamic Programming (Left-Disparity Axes) algorithm.
+
+<p align="center">
+  <img src="results/disparity2.png"> 
+</p>
+
+The disparity map that created using the Semi-Global Matching algorithm.
+
+<p align="center">
+  <img src="results/disparity3.png"> 
+</p>
+
+The disparity map that created using the Semi-Global Block Matching algorithm.
+
+<p align="center">
+  <img src="results/disparity4.png"> 
+</p>
+
+The disparity map that created using the Belief Propagation (Accelerated) algorithm.
+
+<p align="center">
+  <img src="results/disparity5.png"> 
+</p>
+
+The disparity map that created using the Belief Propagation (Synchronous) algorithm.
+
+<p align="center">
+  <img src="results/disparity6.png"> 
+</p>
+
+## Related Repositories
+
+- [Stereo Matching Algorithms in MATLAB](https://github.com/bollasap/stereo-matching-algorithms-matlab)
+- [Block Matching for Stereo Matching](https://github.com/bollasap/block-matching-for-stereo)
+- [Stereo Matching using Dynamic Programming (Left-Right Axes)](https://github.com/bollasap/stereo-matching-using-dynamic-programming-left-right)
+- [Stereo Matching using Dynamic Programming (Left-Disparity Axes)](https://github.com/bollasap/stereo-matching-using-dynamic-programming-left-disparity)
+- [Semi-Global Matching](https://github.com/bollasap/semi-global-matching)
+- [Semi-Global Block Matching](https://github.com/bollasap/semi-global-block-matching)
+- [Stereo Matching using Belief Propagation (Accelerated)](https://github.com/bollasap/stereo-matching-using-belief-propagation-accelerated)
+- [Stereo Matching using Belief Propagation (Synchronous)](https://github.com/bollasap/stereo-matching-using-belief-propagation-synchronous)
+- [Stereo Matching using Belief Propagation (Synchronous) - a different aproach](https://github.com/aposb/stereo-matching-using-belief-propagation-fast)
