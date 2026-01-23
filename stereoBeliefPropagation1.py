@@ -87,6 +87,7 @@ for it in range(iterations):
     dispImg = (dispMap*scaleFactor).astype(np.uint8)
 
     # Show disparity map
+    plt.cla()
     plt.imshow(dispImg,cmap="gray")
     plt.show(block=False)
     plt.pause(0.01)
