@@ -7,11 +7,16 @@ import matplotlib.pyplot as plt
 
 MAX_INT = 2147483647
 
-# Parameters
+# Set parameters
 dispLevels = 16 #disparity range: 0 to dispLevels-1
 iterations = 60
 lambda_ = 5 #weight of smoothness cost
-#smoothness cost computation: min(abs(d1-d2),2)*lambda
+
+# Define data cost computation
+dataCostComputation = lambda differences: np.absolute(differences) #absolute differences
+#dataCostComputation = lambda differences: differences**2 #square differences
+
+# Predefined smoothness cost computation: lambda_*np.minimum(np.absolute(differences),2)
 
 # Load left and right images in grayscale
 leftImg = cv.imread("left.png",cv.IMREAD_GRAYSCALE)
@@ -28,7 +33,7 @@ rightImg = cv.GaussianBlur(rightImg,(5,5),0.6)
 rightImgShifted = np.zeros((rows,cols,dispLevels),dtype=np.int32)
 for d in range(dispLevels):
     rightImgShifted[:,d:,d] = rightImg[:,:cols-d]
-dataCost = np.absolute(leftImg[:,:,np.newaxis]-rightImgShifted)
+dataCost = dataCostComputation(leftImg[:,:,np.newaxis]-rightImgShifted)
 
 # Initialize messages
 msgFromUp = np.zeros((rows,cols,dispLevels),dtype=np.int32)
@@ -105,8 +110,8 @@ for it in range(iterations):
     
     # Compute energy
     dataEnergy = np.sum(dataCost[np.arange(rows)[:,np.newaxis],np.arange(cols)[np.newaxis,:],dispMap])
-    smoothnessEnergyHorizontal = np.sum(np.minimum(np.absolute(dispMap[:,0:cols-1]-dispMap[:,1:cols]),2)*lambda_)
-    smoothnessEnergyVertical = np.sum(np.minimum(np.absolute(dispMap[0:rows-1,:]-dispMap[1:rows,:]),2)*lambda_)
+    smoothnessEnergyHorizontal = np.sum(lambda_*np.minimum(np.absolute(np.diff(dispMap,n=1,axis=1)),2))
+    smoothnessEnergyVertical = np.sum(lambda_*np.minimum(np.absolute(np.diff(dispMap,n=1,axis=0)),2))
     energy[it] = dataEnergy+smoothnessEnergyHorizontal+smoothnessEnergyVertical
 
     # Normalize the disparity map for display

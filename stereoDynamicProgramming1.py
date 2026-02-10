@@ -7,10 +7,16 @@ import matplotlib.pyplot as plt
 
 MAX_INT = 2147483647
 
-# Parameters
+# Set parameters
 dispLevels = 16 #disparity range: 0 to dispLevels-1
 Pocc = 5 #occlusion penalty
 Pdisc = 1 #vertical discontinuity penalty
+
+# Define data cost computation
+dataCostComputation = lambda differences: np.absolute(differences) #absolute differences
+#dataCostComputation = lambda differences: differences**2 #square differences
+
+# Predefined smoothness cost computation: Pocc*np.absolute(differences)
 
 # Load left and right images in grayscale
 leftImg = cv.imread("left.png",cv.IMREAD_GRAYSCALE)
@@ -37,7 +43,7 @@ for y in range(rows):
     # Compute matching cost
     L = leftImg[y,:] #left scanline
     R = rightImg[y,:] #right scanline
-    C = np.absolute(L-R[np.newaxis,:].T) #matching cost
+    C = dataCostComputation(L-R[np.newaxis,:].T) #matching cost
 
     # Keep previous transitions
     T0 = T

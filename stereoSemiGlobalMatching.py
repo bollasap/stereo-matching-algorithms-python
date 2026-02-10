@@ -5,10 +5,17 @@ import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
 
-# Parameters
+# Set parameters
 dispLevels = 16 #disparity range: 0 to dispLevels-1
 p1 = 5 #occlusion penalty 1
 p2 = 10 #occlusion penalty 2
+
+# Define data cost computation
+dataCostComputation = lambda differences: np.absolute(differences) #absolute differences
+#dataCostComputation = lambda differences: differences**2 #square differences
+
+# Define smoothness cost computation
+smoothnessCostComputation = lambda differences: (np.absolute(differences)==1)*p1+(np.absolute(differences)>=2)*p2
 
 # Load left and right images in grayscale
 leftImg = cv.imread("left.png",cv.IMREAD_GRAYSCALE)
@@ -21,16 +28,15 @@ rightImg = cv.GaussianBlur(rightImg,(5,5),0.6)
 # Get the size
 (rows,cols) = leftImg.shape
 
-# Compute pixel-based matching cost
+# Compute pixel-based matching cost (data cost)
 rightImgShifted = np.zeros((rows,cols,dispLevels),dtype=np.int32)
 for d in range(dispLevels):
     rightImgShifted[:,d:,d] = rightImg[:,:cols-d]
-dataCost = np.absolute(leftImg[:,:,np.newaxis]-rightImgShifted)
+dataCost = dataCostComputation(leftImg[:,:,np.newaxis]-rightImgShifted)
 
 # Compute smoothness cost
 d = np.arange(dispLevels)
-diff = np.absolute(d-d[np.newaxis,:].T)
-smoothnessCost = (diff==1)*p1+(diff>=2)*p2
+smoothnessCost = smoothnessCostComputation(d-d[np.newaxis,:].T)
 smoothnessCost3d = smoothnessCost[np.newaxis,:,:].astype(np.int32)
 
 # Initialize path tables for the 8 directions
