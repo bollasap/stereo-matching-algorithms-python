@@ -123,7 +123,8 @@ for i in range(cols):
     L8[:,i,:] = L8a[i:rows+i,i,:]
 
 # Compute total cost
-S = L1 + L2 + L3 + L4 + L5 + L6 + L7 + L8
+#S = dataCost*8 + L1 + L2 + L3 + L4 + L5 + L6 + L7 + L8 #standard total cost computation
+S = L1 + L2 + L3 + L4 + L5 + L6 + L7 + L8 #without dataCost*8 (better results)
 
 # Compute the disparity map
 dispMap = np.argmin(S,axis=2)
